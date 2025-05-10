@@ -33,14 +33,14 @@ def test_get_unexisted_user():
 def test_create_user_with_valid_email():
     '''Создание пользователя с уникальной почтой'''
     newUser = {'name': 'Anton Antonov', 'email': 'a.a.antonov@mail.com'}
-    response = client.post("/api/v1/user", params=newUser)
+    response = client.post("/api/v1/user", json=newUser)
     assert response.status_code == 201
     assert isinstance(response.json(), int)
 
 def test_create_user_with_invalid_email():
     '''Создание пользователя с почтой, которую использует другой пользователь'''
     newUser = {'name': 'Danila Danilov', 'email': users[0]['email']}
-    response = client.post("/api/v1/user", params=newUser)
+    response = client.post("/api/v1/user", json=newUser)
     assert response.status_code == 409
     assert response.json() == {"detail": "User with this email already exists"}
 
